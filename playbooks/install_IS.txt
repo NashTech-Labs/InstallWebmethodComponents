@@ -1,0 +1,7 @@
+---
+- hosts: <<hosts_you_want_to_run_on>>
+  gather_facts: true
+  roles:
+    - sag_installer
+    - wmis_install
+    

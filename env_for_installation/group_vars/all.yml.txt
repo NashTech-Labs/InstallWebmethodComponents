@@ -1,0 +1,10 @@
+---
+
+app_name: <<"env_name">>
+app_env_level: <<DEV/PROD/QA|TEST>>
+app_code: <<app_code>>
+app_environment: <<DEV/PROD/QA|TEST>>
+
+wm_version_name: wm_1011
+sag_install_version: <<version_name>>
+wm_dbconfig_image_version: <<image_version>>

@@ -1,0 +1,84 @@
+wm_is_instance_name: default
+wm_is_cluster_name: 
+
+wm_is_license_file_content: 
+wm_terracotta_license_file_content: 
+
+wm_is_image_version: <<image_name>>
+
+wm_is_db_oracle: true
+
+
+wm_is_automation_user: 
+wm_is_automation_pass: 
+
+wm_is_dependencies:
+  instance_lib_include:
+  - <<jar_path>>
+  platform_lib_include:
+  - <<jar_path>>
+  platform_lib_exclude:
+  - <<jar>>
+
+
+wm_is_db_url_common: <<db_url>>
+
+wm_is_db_pools:
+- name: ISInternal
+  username: <<user_name>>
+  password: <<password>>
+  dbURL: "{{ wm_is_db_url_common }}"
+  minConns: "1"
+  maxConns: "30"
+  expireTimeMS: "60000"
+  functions:
+  - ISI
+  functionNames:
+  - ISInternal
+- name: ISCore
+  username: <<user_name>>
+  password: <<password>>
+  dbURL: "{{ wm_is_db_url_common }}"
+  minConns: "1"
+  maxConns: "30"
+  expireTimeMS: "60000"
+  functions:
+  - ISC
+  functionNames:
+  - ISCoreAudit
+- name: CentralPool
+  username: <<user_name>>
+  password: <<password>>
+  dbURL: "{{ wm_is_db_url_common }}"
+  minConns: "1"
+  maxConns: "30"
+  expireTimeMS: "60000"
+  functions:
+  - CCS
+  - MWS
+  functionNames:
+  - CentralUsers
+- name: XREF
+  username: <<user_name>>
+  password: <<password>>
+  dbURL: "{{ wm_is_db_url_common }}"
+  minConns: "1"
+  maxConns: "30"
+  expireTimeMS: "60000"
+  functions:
+  - XRF
+  functionNames:
+  - CrossReference
+- name: ProcessAudit
+  username: <<user_name>>
+  password: <<password>>
+  dbURL: "{{ wm_is_db_url_common }}"
+  minConns: "1"
+  maxConns: "30"
+  expireTimeMS: "60000"
+  functions:
+  - PRA
+  - PTR
+  - PRE
+  functionNames:
+  - ProcessAudit

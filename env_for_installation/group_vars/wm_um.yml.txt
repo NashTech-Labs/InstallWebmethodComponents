@@ -1,0 +1,11 @@
+wm_um_rname: default
+wm_um_name: <<um_name>>
+
+wm_um_image_version: <<image_name>>
+
+wm_um_license_file_content: 
+wm_um_default_admin_pass: 
+
+wm_um_users:
+- username: <<username>>
+  password: <<password>>

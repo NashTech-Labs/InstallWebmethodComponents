@@ -1,0 +1,10 @@
+wm_mws_image_version: <<image_version>>
+
+wm_mws_instances:
+- name: default
+  dbtype: oracle
+  dburl: "db_url"
+  dbuser: "{{ username }}"
+  dbpass: "{{ password }}"
+  port: 8585
+  functions: ["CCS","MWS"]

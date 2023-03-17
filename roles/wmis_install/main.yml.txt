@@ -1,0 +1,41 @@
+---
+
+
+- name: get image from Code Artifact
+  shell:
+    cmd: "curl -L -o {{ install_path|default('/apps/webmethods', true) }}/ISTCImage-{{ wm_is_image_version }}.zip url/com/softwareag/ISTCImage/{{ wm_is_image_version }}/ISTCImage-{{ wm_is_image_version }}-x86_64.zip --user 'aws:{{ aws_codeartifact_token }}'"
+    chdir: "{{ install_path|default('/apps/webmethods', true) }}"
+- name: get IS license from secret server
+  copy:
+    content: "{{ wm_is_license_file_content|b64decode }}"
+    dest: "{{ install_path|default('/apps/webmethods', true) }}"
+- name: get Terracotta license from secret server
+  copy:
+    content: "{{ wm_terracotta_license_file_content|b64decode }}"
+    dest: "{{ install_path|default('/apps/webmethods', true) }}/terracotta-license.key"
+- name: validate image
+  shell: "{{ install_path|default('/apps/webmethods', true) }}/SoftwareAGInstaller-{{  sag_install_version }}.bin -validateImage {{ install_path|default('/apps/webmethods', true) }}/ISTCImage-{{ wm_is_image_version }}.zip -debugLvl info -debugOut -debugErr"
+- name: template install script
+  template:
+    src: "install_script_{{ wm_version_name|default('wm_105', true) }}.j2"
+    dest: "{{ install_path|default('/apps/webmethods', true) }}/ISTCscript-{{ wm_is_image_version }}.script"
+    owner: wmroot
+    group: wmadmin
+    mode: 0644
+- name: run install script
+  shell: "{{ install_path|default('/apps/webmethods', true) }}/SoftwareAGInstaller-{{  sag_install_version }}.bin -readScript {{ install_path|default('/apps/webmethods', true) }}/ISTCscript-{{ wm_is_image_version }}.script -scriptErrorInteract no -debugLvl error -debugOut -debugErr"
+- name: clean up IS license key
+  file:
+    path: "{{ install_path|default('/apps/webmethods', true) }}/<license>.xml"
+    state: absent
+  ignore_errors: true
+- name: clean up install image
+  file:
+    path: "{{ install_path|default('/apps/webmethods', true) }}/ISTCImage-{{ wm_is_image_version }}.zip"
+    state: absent
+  ignore_errors: true
+- name: clean up Terracotta license key
+  file:
+    path: "{{ install_path|default('/apps/webmethods', true) }}/terracotta-license.key"
+    state: absent
+  ignore_errors: true

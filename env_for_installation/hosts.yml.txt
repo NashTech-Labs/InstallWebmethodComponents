@@ -1,0 +1,25 @@
+---
+wm_is:
+  hosts:
+    <<is_Server>>
+
+wm_tc:
+  children:
+    wm_is:
+
+wm_um:
+  hosts:
+    <<um_server>>:
+      wm_um_realms:
+      - name: <<name>>
+        port: 9000
+        is_setup: <<username/password>>
+wm_mws:
+  hosts:
+    <<mws_Server>>:
+
+all:
+  children:
+    wm_is:
+    wm_um:
+    wm_mws:

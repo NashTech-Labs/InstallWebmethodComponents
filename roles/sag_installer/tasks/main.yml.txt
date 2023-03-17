@@ -1,0 +1,10 @@
+---
+
+- name: get installer from Code Artifact
+  shell:
+    cmd: "curl -L -o SoftwareAGInstaller-{{ sag_install_version }}.bin url/com/softwareag/SoftwareAGInstaller/{{ sag_install_version }}/SoftwareAGInstaller-{{ sag_install_version }}-x86_64.bin --user 'aws:{{ aws_codeartifact_token }}'"
+    chdir: "{{ install_path|default('/apps/webmethods', true) }}"
+- name: fix installer file permissions
+  file:
+    path: "{{ install_path|default('/apps/webmethods', true) }}/SoftwareAGInstaller-{{ sag_install_version }}.bin"
+    mode: 0755
